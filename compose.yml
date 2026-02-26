@@ -1,0 +1,10 @@
+services:
+  podman:
+    image: quay.io/podman/stable
+    user: podman
+    security_opt:
+      - seccomp=unconfined
+      - label=disable
+    devices:
+      - /dev/fuse
+    command: podman run --rm docker.io/library/hello-world
