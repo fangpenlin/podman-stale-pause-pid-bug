@@ -1,12 +1,18 @@
-FROM fedora:41
+FROM quay.io/podman/stable
 
-RUN dnf -y install podman fuse-overlayfs shadow-utils && dnf clean all
+USER root
+
+RUN useradd -m testuser && \
+    echo "testuser:100000:65536" >> /etc/subuid && \
+    echo "testuser:100000:65536" >> /etc/subgid
+
+RUN mkdir -p /home/testuser/.local/share/containers && \
+    chown -R testuser:testuser /home/testuser
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY etc/subuid etc/subgid /etc-override/
-COPY etc/containers/storage.conf /etc-override/containers/
+USER testuser
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["podman", "run", "--rm", "docker.io/library/hello-world"]
