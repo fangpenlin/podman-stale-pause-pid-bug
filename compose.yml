@@ -1,6 +1,9 @@
 services:
   podman:
     image: podman-stale-pause-pid-bug
+    build:
+      context: .
+      dockerfile: Dockerfile
     user: testuser
     security_opt:
       - seccomp=unconfined
