@@ -7,4 +7,5 @@ services:
       - label=disable
     devices:
       - /dev/fuse
-    command: podman --log-level=debug run --rm docker.io/library/hello-world
+    # command: podman --log-level=debug run --rm docker.io/library/hello-world
+    command: podman --log-level=debug system info
